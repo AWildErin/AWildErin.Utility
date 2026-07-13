@@ -29,6 +29,11 @@ public static partial class Log
 		LogManager.Setup().LoadConfiguration( builder =>
 		{
 			builder.ForLogger().FilterMinLevel( LogLevel.Debug ).WriteToColoredConsole( logFormat, enableAnsiOutput: true );
+
+#if DEBUG
+			builder.ForLogger().FilterMinLevel( LogLevel.Trace ).WriteToDebug( logFormat );
+#endif
+
 			if ( LogToFile )
 			{
 				builder.ForLogger().FilterMinLevel( logToFileMinlevel ).WriteToFile( fileName, logFormat );
