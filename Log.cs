@@ -4,7 +4,7 @@ namespace AWildErin.Utility;
 
 public static partial class Log
 {
-	private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+	private static readonly Logger logger = LogManager.GetLogger( "Log" );
 
 	private static string currentLogFile { get; set; } = string.Empty;
 	public static string GetLogFilePath() => currentLogFile;
@@ -17,7 +17,7 @@ public static partial class Log
 	{
 		var startDateTime = DateTime.Now;
 		var fileName = $"logs/log_{startDateTime.ToString( "HH-mm-ss" )}.log";
-		var logFormat = @"${date:format=HH\:mm\:ss} ${level} | ${message}";
+		var logFormat = @"${date:format=HH\:mm\:ss} ${level} [${logger}] | ${message}";
 
 		currentLogFile = fileName;
 
