@@ -1,4 +1,5 @@
 ﻿using NLog;
+using NLog.Targets;
 
 namespace AWildErin.Utility;
 
@@ -42,11 +43,11 @@ public static partial class Log
 
 		if ( LogToFile )
 		{
-			Debug( $"Logger initialised, log file is at: {fileName}" );
+			Debug( $"Logger initialized, log file is at: {fileName}" );
 		}
 		else
 		{
-			Debug( "Logger initialised, will not log to file." );
+			Debug( "Logger initialized, will not log to file." );
 		}
 	}
 
@@ -57,4 +58,13 @@ public static partial class Log
 	public static void Error( object val ) => logger.Error( val );
 	public static void Fatal( object val ) => logger.Fatal( val );
 
+	public static void SetLoggingLevel( LogLevel newLevel )
+	{
+		var rule = LogManager.Configuration!.LoggingRules.First( x => x.Targets.Any( y => y is ColoredConsoleTarget ) );
+		if ( rule is not null )
+		{
+			rule.SetLoggingLevels( newLevel, LogLevel.Fatal );
+			LogManager.ReconfigExistingLoggers();
+		}
+	}
 }
